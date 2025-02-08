@@ -1,0 +1,237 @@
+  <!DOCTYPE html>
+  <html>
+  <head>
+    <title>Paper Chat</title>
+    <style>
+      body {
+        width: 400px;
+        height: 500px;
+        padding: 16px;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .header {
+        padding: 10px;
+        background: #f8f9fa;
+        border-bottom: 1px solid #dee2e6;
+        margin-bottom: 10px;
+      }
+
+      .paper-info {
+        margin-bottom: 10px;
+        padding: 10px;
+        background: #fff;
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+      }
+
+      .paper-info h3 {
+        margin: 0 0 8px 0;
+        font-size: 16px;
+      }
+
+      .paper-info p {
+        margin: 4px 0;
+        font-size: 14px;
+        color: #666;
+      }
+
+      #chatHistory {
+        flex-grow: 1;
+        overflow-y: auto;
+        padding: 10px;
+        background: #f8f9fa;
+        border-radius: 8px;
+        margin-bottom: 10px;
+      }
+
+      .message {
+        margin: 8px 0;
+        max-width: 80%;
+        padding: 8px 12px;
+        border-radius: 12px;
+        word-wrap: break-word;
+      }
+
+      .user-message {
+        background: #007bff;
+        color: white;
+        margin-left: auto;
+        border-bottom-right-radius: 4px;
+      }
+
+      .assistant-message {
+        background: #e9ecef;
+        color: black;
+        margin-right: auto;
+        border-bottom-left-radius: 4px;
+      }
+
+      .chat-input-container {
+        display: flex;
+        gap: 8px;
+        padding: 10px;
+        background: #fff;
+        border-top: 1px solid #dee2e6;
+      }
+
+      #chatInput {
+        flex-grow: 1;
+        padding: 8px;
+        border: 1px solid #dee2e6;
+        border-radius: 20px;
+        outline: none;
+      }
+
+      button {
+        padding: 8px 16px;
+        background: #007bff;
+        color: white;
+        border: none;
+        border-radius: 20px;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+
+      button:hover {
+        background: #0056b3;
+      }
+
+      .loading {
+        display: inline-block;
+        margin: 8px;
+        font-style: italic;
+        color: #666;
+      }
+
+      .error {
+        color: #dc3545;
+        padding: 8px;
+        margin: 8px 0;
+        border-radius: 4px;
+        background: #f8d7da;
+      }
+
+      #fileUploadContainer {
+        margin-bottom: 16px;
+      }
+
+      #pdfInput {
+        display: none;
+      }
+
+      .upload-btn {
+        display: block;
+        padding: 10px;
+        background: #f8f9fa;
+        border: 2px dashed #dee2e6;
+        border-radius: 8px;
+        text-align: center;
+        cursor: pointer;
+        margin-bottom: 10px;
+      }
+
+      .upload-btn:hover {
+        background: #e9ecef;
+      }
+
+      #status {
+        padding: 8px;
+        margin: 8px 0;
+        border-radius: 4px;
+        display: none;
+      }
+
+      .success {
+        background: #d4edda;
+        color: #155724;
+      }
+
+      .spinner {
+        width: 40px;
+        height: 40px;
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid #3498db;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin: 20px auto;
+        display: none;
+      }
+
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      .processing-steps {
+        margin: 10px 0;
+        padding: 10px;
+        display: none;
+      }
+
+      .step {
+        margin: 5px 0;
+        padding: 5px;
+        display: flex;
+        align-items: center;
+      }
+
+      .step-icon {
+        margin-right: 10px;
+        color: #6c757d;
+      }
+
+      .step.completed .step-icon {
+        color: #28a745;
+      }
+      .step.in-progress .step-icon {
+        color: #007bff;
+        animation: pulse 1s infinite;
+      }
+
+      @keyframes pulse {
+          0% { opacity: 1; }
+          50% { opacity: 0.5; }
+          100% { opacity: 1; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <h2>Paper Chat</h2>
+    </div>
+
+    <div id="fileUploadContainer">
+      <label for="pdfInput" class="upload-btn">
+        Choose PDF or drag and drop here
+      </label>
+      <input type="file" id="pdfInput" accept=".pdf" />
+      <button id="analyzeBtn">Analyze Paper</button>
+    </div>
+
+    <div id="status"></div>
+    <div id="spinner" class="spinner"></div>
+    <div id="processingSteps" class="processing-steps">
+      <div class="step" id="uploadStep">
+        <span class="step-icon">○</span>
+        <span class="step-text">Uploading PDF...</span>
+      </div>
+      <div class="step" id="extractStep">
+        <span class="step-icon">○</span>
+        <span class="step-text">Extracting text...</span>
+    </div>
+    <div class="step" id="analyzeStep">
+        <span class="step-icon">○</span>
+        <span class="step-text">Analyzing content...</span>
+    </div>
+  </div>
+    
+    <div id="result">
+      <!-- Paper info and chat interface will be inserted here -->
+    </div>
+
+    <script src="popup.js"></script>
+  </body>
+  </html>
